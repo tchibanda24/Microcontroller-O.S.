@@ -1,0 +1,24 @@
+-mcpu=cortex-m4
+-mthumb
+-mfloat-abi=hard
+-mfpu=fpv4-sp-d16
+-g3
+-gdwarf-2
+-gstrict-dwarf
+-I"C:/Users/Thabani Chibanda/Documents/CW_WorkSpace/MyShell/Project_Headers"
+-I"C:/Users/Thabani Chibanda/Documents/CW_WorkSpace/MyShell/Project_Settings/Startup_Code"
+-I"C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_C/include"
+-I"C:/Freescale/CW MCU v10.6/MCU/ARM_GCC_Support/ewl/EWL_Runtime/include"
+-I"C:/Freescale/CW MCU v10.6/Cross_Tools/arm-none-eabi-gcc-4_7_3/lib/gcc/arm-none-eabi/4.7.3/include"
+-I"C:/Freescale/CW MCU v10.6/Cross_Tools/arm-none-eabi-gcc-4_7_3/lib/gcc/arm-none-eabi/4.7.3/include-fixed"
+-I"C:/Freescale/CW MCU v10.6/Cross_Tools/arm-none-eabi-gcc-4_7_3/arm-none-eabi/include"
+-O1
+-ffunction-sections
+-fdata-sections
+-Wall
+-std=gnu99
+-c
+-fmessage-length=0
+-D__VFPV4__
+-D__SEMIHOSTING
+-specs=ewl_c_hosted.specs
