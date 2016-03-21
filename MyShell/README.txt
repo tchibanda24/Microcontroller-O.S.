@@ -21,7 +21,7 @@ SHELL
 
  This file contains the shell commands that can be issued by the user. When a command is called, the necessary system call is made by the kernel to execute that command from the user. There are also 5 test commands for playing with the push buttons/LEDs to test if they work.
 
- The functionality of each function can be described by typing 'help' on it's own to get all the functions, or followed by the name of a specific command to get just that command run.
+ The functionality of each function can will described by typing 'help' on it's own to get all the functions, or followed by the name of a specific command to get just that command run.
 
     REFERENCES: The part of my free() function that I now use to convert string to hex was put together with a bit of help from a reference online
 
@@ -31,7 +31,7 @@ MEMORY MANAGEMENT
 
  ** Fixed memory management implementation so that it now allocates the MB first and then works within this block. Improved my coalesce technique so now it doesn't make multiple walks through the list. Memory Map now just displays pid, size, and address. Also added the 8byte alignment I hadn't done correctly before. And the .h file now should correctly work to get the shell to call my functions in place of system ones.
 
- My memory management program uses explicit linked lists for tracking the available spaces and the processes in use. I also chose to implement first fit with this. The biggest reason for this was because it's the fastest implementation for using explicit linked lists(which are a bit time consuming to traverse). I chose to split only significantly large free blocks, so worst-fit wasts quite a bit of memory there since it doesn't ever split. First fit, however, also won't be forced to split many blocks, but it will split when necessary and keep the most amount of space free as possible. Lastly, because I'm coalescing on every chance possible, reordering the list made the most sense. This made best fit a worse option then first fit because it seems as though first fit causes a lot more space near each other to be allocated(since free spaces are always taken from as high on the free LL as possible). This allows more coalescing and a lot less traversals through the list for reording and searching.
+ My memory management program uses two explicit linked lists for tracking the available spaces and the processes in use. I also chose to implement the first fit algorithm for finding a new memory block to allocate. The biggest reason for this was because it's the fastest implementation when using explicit linked lists(which are a bit time consuming to traverse). I also chose to split only significantly large free blocks upon allocation, so worst-fit would've wasted quite a bit of memory since it normally requires not ever split blocks. On the other hand, first fit also won't be forced to split many blocks due to the nature of the operating systems implementation, but it will split when necessary and keep the most amount of space free as possible. Lastly, I've chosen to implement coalescing on every chance possible, so reordering the avaliable spaces LL made the most sense. In turn, this made best fit a worse option then first fit because it seems as though first fit causes a lot more spaces that are near each other to be allocated(since free spaces are always taken from as high on the free spaces LL as possible). This means more coalescing yet a lot less traversals through the list for reording and searching.
 
     REFERENCES: I referenced to two pdf's for implementing malloc. They're called "A Malloc Tutorial" by Marwan Bruelle and "Optimizing Free & Malloc". They have a bit of code on the page, but they're very bare and simple allocation implementations. I used them to give me an idea on where to go with this, but I'm putting it here to be sure to list any references I used at all.
 
@@ -107,7 +107,7 @@ INPUT/OUTPUT & FILE SYSTEM
 
  ** Changed my implementation a bit by making it so everything is treated as a file. Now a few functions have become much simpler.
 
- My implementation of this system is fairly simple. Had a struct stream that pointed to the device functions and data. Device functions took care of manipulating most of the data and return results. Files are created but the devices are already defined and can just be opened and closed.
+ My implementation of this system is fairly simple. Had a struct stream that pointed to the device functions and data. Device functions took care of manipulating most of the data and return results. Files and devices are created/opened/closed by the user. One important thing to note is that when writing to files, the kernel only allocates space when necessary. This seemed to be the best decision due to how the memory management is implemented.
 
     How to use it:
 
@@ -244,9 +244,9 @@ EXAMPLE:
 
 SUPERVISOR CALLS
 
- My svc file creates supervisor call instructions for my create, delete, open, close, get, put, list, get_desc, malloc, free, and memory map functions from myIO and myMem. I added them to my shell by just setting macros definitions to replace those calls from my myIO and myMem directly.
+ My svc file creates supervisor call instructions for my create, delete, open, close, get, put, list, get_desc, malloc, free, and memory map functions from 'myIO' and 'myMem'. I added them to my shell by just setting macros definitions to replace those calls from my myIO and myMem directly.
 
- Each SVC function essentially calls the corresponding function in Supervisor Mode. Now the control of all processes is running is by the kernel, or supervisor.
+ Each SVC function essentially calls the corresponding function in Supervisor Mode. Now the control of all processes is running is by the kernel, or "supervisor". Each function is called, has it's parameters loaded into the registers and run.
 
 
 
